@@ -1,0 +1,31 @@
+#include <iostream>
+
+float toFloat(unsigned int binary) {
+    float result;
+    *((unsigned int*)&result) = binary; // Преобразование без memcpy
+    return result;
+}
+
+float calculateAverage(const unsigned int* numbers, int size) {
+    float sum = 0.0;
+    for (int i = 0; i < size; ++i) {
+        sum += toFloat(numbers[i]);
+    }
+    return sum / size;
+}
+
+int main() {
+    const int size = 3;
+    unsigned int numbers[size];
+
+    std::cout << "Введите " << size << " чисел в шестнадцатичном формате:" << std::endl;
+    for (int i = 0; i < size; ++i) {
+        std::cout << "Число " << (i + 1) << ": ";
+        std::cin >> std::hex >> numbers[i]; // Ввод в шестнадцатичном формате
+    }
+
+    float average = calculateAverage(numbers, size);
+    std::cout << "Среднее значение: " << average << std::endl;
+
+    return 0;
+}
